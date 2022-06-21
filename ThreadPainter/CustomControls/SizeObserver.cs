@@ -7,6 +7,8 @@ using System.Windows;
 
 namespace ThreadPainter.CustomControls
 {
+    // Ta klasa jest w calosci pobrana z publicznego repozytorium 
+    // https://gist.github.com/huoxudong125/56a2e1fe5b1916a01064668a3397a57f
     public static class SizeObserver
     {
         public static readonly DependencyProperty ObserveProperty = DependencyProperty.RegisterAttached(

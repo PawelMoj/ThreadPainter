@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace ThreadPainter.Pool
 {
@@ -12,12 +13,16 @@ namespace ThreadPainter.Pool
         public delegate void CallbackMethod();
 
         public List<Thread> threads = new List<Thread>();
+
+        public List<Brush> brushes { get; set; } = new List<Brush>();
+
         public void CreateThreads(int threadsNumber, CallbackMethod method)
         {
             for (int k = 0; k < threadsNumber; k++)
             {
-                threads[k] = new Thread(() => method());
+                threads.Add(new Thread(() => method()));
             }
+
         }
         public void StartThreads()
         {

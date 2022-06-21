@@ -17,10 +17,36 @@ namespace ThreadPainter.MVVM.ViewModel
 
     class TyperViewModel : ObservableObject
     {
-        Brush customColor;
+        private List<Brush> brushes = new List<Brush>() 
+        {
+            new SolidColorBrush(Color.FromArgb(255,27,161,226)),
+            new SolidColorBrush(Color.FromArgb(255,160,80,0)),
+            new SolidColorBrush(Color.FromArgb(255, 51,153,51)),
+            new SolidColorBrush(Color.FromArgb(255,162,193,57)),
+            new SolidColorBrush(Color.FromArgb(255,216,0,115)),
+            new SolidColorBrush(Color.FromArgb(255,240,150,9)),
+            new SolidColorBrush(Color.FromArgb(255,230,113,184)),
+            new SolidColorBrush(Color.FromArgb(255,162,0,255)),
+            new SolidColorBrush(Color.FromArgb(255,229,20,0)), 
+            new SolidColorBrush(Color.FromArgb(255,0,171,169)),
+
+            new SolidColorBrush(Color.FromArgb(255,27,161,13)),
+            new SolidColorBrush(Color.FromArgb(255,160,80,50)),
+            new SolidColorBrush(Color.FromArgb(255, 51,112,51)),
+            new SolidColorBrush(Color.FromArgb(255,61,193,57)),
+            new SolidColorBrush(Color.FromArgb(255,216,200,115)),
+            new SolidColorBrush(Color.FromArgb(255,69,150,9)),
+            new SolidColorBrush(Color.FromArgb(255,230,113,18)),
+            new SolidColorBrush(Color.FromArgb(255,12,0,255)),
+            new SolidColorBrush(Color.FromArgb(255,34,235,0)),
+            new SolidColorBrush(Color.FromArgb(255,0,171,69))
+
+        };
         Random random = new Random();
         private int threadNumber;
         private int speed;
+        private double height;
+        private double width;
         public ICommand StartButtonCommand { get; set; }
         public ICommand StopButtonCommand { get; set; }
         public ICommand ClearButtonCommand { get; set; }
@@ -45,30 +71,34 @@ namespace ThreadPainter.MVVM.ViewModel
                 return; 
             }
 
-            //threadManager.CreateThreads(ThreadNumber, () => RandomPointCreator());
+            threadManager.brushes = brushes.Take(ThreadNumber).ToList();
+            threadManager.CreateThreads(ThreadNumber, () => RandomPointCreator());
 
             threadManager.StartThreads();
         }
         private void StopButtonClick(object obj)
         {
-            
+            threadManager.StopThreads();
         }
         private void ClearButtonClick(object obj)
         {
+            threadManager.JoinThreads();
             EllipseItems.Clear();
         }
 
         public void RandomPointCreator()
         {
             double x, y, radius = 0.1;
-            
+            Brush brush = threadManager.brushes.FirstOrDefault();
+            threadManager.brushes.Remove(brush);
             while (true)
             {
-                x = random.NextDouble();
-                y = random.NextDouble();
-                EllipseItems.Add(new EllipseItemModel { X = x, Y = y, Radius = radius });
+                x = random.NextDouble() * Width;
+                y = random.NextDouble() * (Height-120);
+                EllipseItems.Add(new EllipseItemModel { X = x, Y = y, Radius = radius, Color = brush });
+                Thread.Sleep(Speed/1000);
             }
-            
+    
         }
 
         public int ThreadNumber
@@ -89,6 +119,26 @@ namespace ThreadPainter.MVVM.ViewModel
                 OnPropertyChanged("Speed");
             }
         }
+
+        public double Height
+        {
+            get { return height; }
+            set
+            {
+                height = value;
+                OnPropertyChanged("Height");
+            }
+        }
+        public double Width
+        {
+            get { return width; }
+            set
+            {
+                width = value;
+                OnPropertyChanged("Width");
+            }
+        }
+
         public ObservableCollection<EllipseItemModel> EllipseItems
         {
             get { return ellipseItems; }
