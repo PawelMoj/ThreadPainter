@@ -28,22 +28,42 @@ namespace ThreadPainter.Pool
         {
             foreach (var thread in threads)
             {
-                if (thread.ThreadState == ThreadState.Stopped)
+                if (thread.ThreadState == ThreadState.Suspended)
                 {
                     thread.Resume();
+                    return;
+                }
+                else if (thread.ThreadState == ThreadState.Running)
+                {
+                    return;
                 }
                 else
                 {
-                    thread.Start();            
+                    try
+                    {
+                        thread.Start();
+                    }
+                    catch { }
                 }
             }
         }
 
-        public void JoinThreads()
+        public void AbortThreads()
         {
             foreach (var thread in threads)
             {
-                thread.Join();
+                try
+                {
+                    if (thread.ThreadState == ThreadState.Suspended)
+                    {
+                        thread.Resume();
+                    }
+                    thread.Abort();
+                }
+                catch
+                { 
+                    
+                }
             }
             threads.Clear();
         }

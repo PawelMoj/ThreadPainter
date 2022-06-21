@@ -8,13 +8,21 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using ThreadPainter.Core;
 using ThreadPainter.MVVM.Model;
 using ThreadPainter.Pool;
 
 namespace ThreadPainter.MVVM.ViewModel
 {
+    class EllipseItemModel
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
 
+        public double Radius { get; set; }
+        public Brush Color { get; set; }
+    }
     class TyperViewModel : ObservableObject
     {
         private List<Brush> brushes = new List<Brush>() 
@@ -51,7 +59,7 @@ namespace ThreadPainter.MVVM.ViewModel
         public ICommand StopButtonCommand { get; set; }
         public ICommand ClearButtonCommand { get; set; }
 
-        private static ThreadManager threadManager = new ThreadManager();
+        private ThreadManager threadManager = new ThreadManager();
 
         private ObservableCollection<EllipseItemModel> ellipseItems;
 
@@ -66,14 +74,15 @@ namespace ThreadPainter.MVVM.ViewModel
 
         private void StartButtonClick(object obj)
         {
-            if (ThreadNumber == 0)
+            if (ThreadNumber == 0 || Speed == 0)
             {
                 return; 
             }
-
-            threadManager.brushes = brushes.Take(ThreadNumber).ToList();
-            threadManager.CreateThreads(ThreadNumber, () => RandomPointCreator());
-
+            if (threadManager.threads.Count() == 0)
+            {
+                threadManager.brushes = brushes.Take(ThreadNumber).ToList();
+                threadManager.CreateThreads(ThreadNumber, () => RandomPointCreator());
+            }
             threadManager.StartThreads();
         }
         private void StopButtonClick(object obj)
@@ -82,21 +91,28 @@ namespace ThreadPainter.MVVM.ViewModel
         }
         private void ClearButtonClick(object obj)
         {
-            threadManager.JoinThreads();
-            EllipseItems.Clear();
+            threadManager.AbortThreads();
+            Thread.Sleep(2000);
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+            {
+                EllipseItems.Clear();
+            }));
         }
 
         public void RandomPointCreator()
         {
-            double x, y, radius = 0.1;
+            double x, y, radius = 10;
             Brush brush = threadManager.brushes.FirstOrDefault();
             threadManager.brushes.Remove(brush);
             while (true)
             {
                 x = random.NextDouble() * Width;
-                y = random.NextDouble() * (Height-120);
-                EllipseItems.Add(new EllipseItemModel { X = x, Y = y, Radius = radius, Color = brush });
-                Thread.Sleep(Speed/1000);
+                y = random.NextDouble() * (Height+120);
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                {
+                    this.EllipseItems.Add(new EllipseItemModel { X = x, Y = y, Radius = radius, Color = brush });
+                }));
+                Thread.Sleep(1000/Speed);
             }
     
         }

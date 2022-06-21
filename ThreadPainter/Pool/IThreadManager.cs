@@ -9,8 +9,9 @@ namespace ThreadPainter.Pool
 {
     interface IThreadManager
     {
+
         void StartThreads();
         void StopThreads();
-        void JoinThreads();
+        void AbortThreads();
     }
 }
