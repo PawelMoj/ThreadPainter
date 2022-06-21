@@ -20,25 +20,25 @@ namespace ThreadPainter.MVVM.ViewModel
                 OnPropertyChanged();
             }
         }
-        private object canvasView;
-        public object CanvasView
-        {
-            get { return canvasView; }
-            set
-            {
-                canvasView = value;
-                OnPropertyChanged();
-            }
-        }
+        //private object canvasView;
+        //public object CanvasView
+        //{
+        //    get { return canvasView; }
+        //    set
+        //    {
+        //        canvasView = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
         public TyperViewModel typerViewModel { get; set; }
-        public PointsViewModel pointsViewModel { get; set; }
+        //public PointsViewModel pointsViewModel { get; set; }
         public MainViewModel()
         {
             this.typerViewModel = new TyperViewModel();
-            this.pointsViewModel = new PointsViewModel();
+            //this.pointsViewModel = new PointsViewModel();
 
             CurrentView = this.typerViewModel;
-            CanvasView = this.pointsViewModel;
+            //CanvasView = this.pointsViewModel;
 
         }
 

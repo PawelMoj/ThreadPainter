@@ -10,7 +10,10 @@
     <Application.Resources>
         
         <ResourceDictionary>
-
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes\IntMinMaxInputTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            
             <DataTemplate DataType="{x:Type viewModel:TyperViewModel}">
                 <view:TyperView/>
             </DataTemplate>

@@ -17,16 +17,17 @@
 
     <Border Background="White">
         <Grid>
-            <Grid.RowDefinitions>
+            <!--<Grid.RowDefinitions>
                 <RowDefinition Height="120"/>
                 <RowDefinition/>
-            </Grid.RowDefinitions>
+            </Grid.RowDefinitions>-->
 
-            <ContentControl Grid.Row="0"
+            <ContentControl 
                             Content="{Binding CurrentView}"/>
-            <ContentControl Grid.Row="1"
+            
+            <!--<ContentControl Grid.Row="1"
                             Content="{Binding CanvasView}"
-                            Margin="8 0 8 8"/>
+                            Margin="8 0 8 8"/>-->
         </Grid>
     </Border>
 </Window>
