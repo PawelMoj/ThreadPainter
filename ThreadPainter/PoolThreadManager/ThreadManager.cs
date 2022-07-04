@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace ThreadPainter.Pool
+namespace ThreadPainter.PoolThreadManager
 {
     class ThreadManager : IThreadManager
     {

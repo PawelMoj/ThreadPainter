@@ -10,8 +10,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using ThreadPainter.Core;
-using ThreadPainter.MVVM.Model;
-using ThreadPainter.Pool;
+using ThreadPainter.MVVM;
+using ThreadPainter.PoolThreadManager;
 
 namespace ThreadPainter.MVVM.ViewModel
 {
@@ -101,13 +101,13 @@ namespace ThreadPainter.MVVM.ViewModel
 
         public void RandomPointCreator()
         {
-            double x, y, radius = 10;
+            double x, y, radius = 8;
             Brush brush = threadManager.brushes.FirstOrDefault();
             threadManager.brushes.Remove(brush);
             while (true)
             {
                 x = random.NextDouble() * Width;
-                y = random.NextDouble() * (Height+120);
+                y = random.NextDouble() * (Height+140);
                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
                 {
                     this.EllipseItems.Add(new EllipseItemModel { X = x, Y = y, Radius = radius, Color = brush });

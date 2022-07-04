@@ -55,8 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Pool\IThreadManager.cs" />
-    <Compile Include="Pool\ThreadManager.cs" />
+    <Compile Include="PoolThreadManager\IThreadManager.cs" />
+    <Compile Include="PoolThreadManager\ThreadManager.cs" />
     <Compile Include="CustomControls\SizeObserver.cs" />
     <Compile Include="Validation\IntMinMaxValidation.cs" />
     <Page Include="MainWindow.xaml">
@@ -73,10 +73,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MVVM\View\PointsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MVVM\View\TyperView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -87,13 +83,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MVVM\Model\ParametersModel.cs" />
     <Compile Include="MVVM\ViewModel\MainViewModel.cs" />
-    <Compile Include="MVVM\ViewModel\PointsViewModel.cs" />
     <Compile Include="MVVM\ViewModel\TyperViewModel.cs" />
-    <Compile Include="MVVM\View\PointsView.xaml.cs">
-      <DependentUpon>PointsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MVVM\View\TyperView.xaml.cs">
       <DependentUpon>TyperView.xaml</DependentUpon>
     </Compile>
@@ -122,6 +113,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MVVM\Model\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

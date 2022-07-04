@@ -17,9 +17,7 @@
             <DataTemplate DataType="{x:Type viewModel:TyperViewModel}">
                 <view:TyperView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModel:PointsViewModel}">
-                <view:PointsView/>
-            </DataTemplate>
+           
         </ResourceDictionary>
             
     </Application.Resources>
