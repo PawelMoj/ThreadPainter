@@ -16,7 +16,7 @@ namespace ThreadPainter.PoolThreadManager
 
         public List<Brush> brushes { get; set; } = new List<Brush>();
 
-        public void CreateThreads(int threadsNumber, CallbackMethod method)
+        public void CreateThreads(int threadsNumber, Action method)
         {
             for (int k = 0; k < threadsNumber; k++)
             {
